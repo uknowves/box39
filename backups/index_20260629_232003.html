@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BOX39 — Art That Moves You</title>
+
+  <style>
+    /* ─── FONTS ─── */
+    @font-face {
+      font-family: 'NormExt';
+      src: url('fonts/NormExt-Black.otf') format('opentype');
+      font-weight: 900;
+    }
+    @font-face {
+      font-family: 'NormCompact';
+      src: url('fonts/NormCompact-Black.otf') format('opentype');
+      font-weight: 900;
+    }
+    @font-face {
+      font-family: 'NormExt';
+      src: url('fonts/NormExt-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+    @font-face {
+      font-family: 'NormExt';
+      src: url('fonts/NormExt-Medium.otf') format('opentype');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'NormExt';
+      src: url('fonts/NormExt-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'NormExt';
+      src: url('fonts/NormExt-Light.otf') format('opentype');
+      font-weight: 300;
+    }
+    @font-face {
+      font-family: 'TTDrugs';
+      src: url('fonts/TTDrugs-Regular.otf') format('opentype');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'TTDrugs';
+      src: url('fonts/TTDrugs-Light.otf') format('opentype');
+      font-weight: 300;
+    }
+    @font-face {
+      font-family: 'TTDrugs';
+      src: url('fonts/TTDrugs-Bold.otf') format('opentype');
+      font-weight: 700;
+    }
+
+    /* ─── VARIABLES ─── */
+    :root {
+      --black:      #000000;
+      --near-black: #131313;
+      --mid-gray:   #6d6d6d;
+      --light-gray: #cac8c6;
+      --white:      #ffffff;
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--near-black);
+      color: var(--white);
+      font-family: 'TTDrugs', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 32px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-logo svg { width: 36px; height: 20px; }
+    .nav-wordmark {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+    }
+    .nav-contact {
+      font-family: 'TTDrugs', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--light-gray);
+      transition: color 0.3s;
+    }
+    .nav-contact:hover { color: var(--white); }
+
+    /* ─── HERO ─── */
+    .hero-wrapper {
+      height: 100vh;
+      position: relative;
+    }
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-end;
+      overflow: visible;
+      padding-bottom: 80px;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.1) 0%,
+        rgba(0,0,0,0) 40%,
+        rgba(19,19,19,0.6) 80%,
+        var(--near-black) 100%
+      );
+    }
+    .hero-set {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-set-1 { opacity: 1; align-items: center; }
+    .hero-set-2 { opacity: 0; align-items: flex-start; padding-left: 24px; }
+    .hero-sup {
+      font-size: 0.32em;
+      vertical-align: super;
+      letter-spacing: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .hero-sub {
+      display: block;
+      text-align: center;
+      font-family: 'TTDrugs', sans-serif;
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: var(--light-gray);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-tagline {
+      position: relative;
+      display: block;
+      width: 100%;
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: 200px;
+      line-height: 0.9;
+      color: var(--light-gray);
+      letter-spacing: -0.01em;
+      height: 1.85em;
+    }
+    .hero-line { display: block; white-space: nowrap; text-align: center; }
+
+    /* ─── SECTION BASE ─── */
+    section {
+      padding: 120px 48px;
+    }
+    .section-label {
+      font-family: 'TTDrugs', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 48px;
+    }
+
+    /* ─── REVEAL ANIMATION ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.35s; }
+    .reveal-delay-4 { transition-delay: 0.5s; }
+
+    /* ─── MANIFESTO ─── */
+    .manifesto {
+      background: var(--black);
+      padding: 80px 40px;
+    }
+    .manifesto-frame {
+      background: var(--light-gray);
+      position: relative;
+      overflow: hidden;
+    }
+    .manifesto-top {
+      padding: 52px 56px 40px;
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .manifesto-heading {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: clamp(72px, 10vw, 160px);
+      line-height: 0.88;
+      letter-spacing: 0.01em;
+      color: var(--black);
+      flex-shrink: 0;
+    }
+    .manifesto-heading sup {
+      font-size: 0.3em;
+      vertical-align: super;
+      letter-spacing: 0;
+    }
+    .manifesto-aside {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 32px;
+      padding-top: 8px;
+      max-width: 320px;
+    }
+    .manifesto-aside-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .manifesto-aside-text {
+      font-family: 'TTDrugs', sans-serif;
+      font-size: 10px;
+      line-height: 1.6;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #444;
+    }
+    .manifesto-aside-bottom {
+      font-family: 'TTDrugs', sans-serif;
+      font-size: 11px;
+      line-height: 1.7;
+      color: #555;
+      font-style: italic;
+    }
+    .manifesto-image {
+      width: 100%;
+      height: clamp(280px, 35vw, 520px);
+      overflow: hidden;
+      position: relative;
+    }
+    .manifesto-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      filter: brightness(0.75);
+    }
+    .manifesto-image-caption {
+      position: absolute;
+      bottom: 24px;
+      left: 56px;
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: clamp(18px, 2.5vw, 32px);
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    /* stats below the frame */
+    .stats {
+      display: flex;
+      gap: 0;
+      margin-top: 3px;
+    }
+    .stat-item {
+      flex: 1;
+      background: #0a0a0a;
+      padding: 36px 40px;
+      border-right: 1px solid #1e1e1e;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: 48px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--white);
+    }
+    .stat-label {
+      margin-top: 6px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+    }
+
+    /* ─── MANIFESTO BLOCK ─── */
+    .manifesto-block {
+      background: var(--light-gray);
+      padding: 80px 48px;
+    }
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 48px 60px;
+      width: 42%;
+      margin-left: auto;
+    }
+    .manifesto-col {
+      grid-column: span 1;
+    }
+    .manifesto-col.reveal,
+    .manifesto-quote-row.reveal {
+      transform: translateY(16px);
+    }
+    .manifesto-quote-row {
+      grid-column: 1 / 2;
+      padding-top: 16px;
+      border-top: 1px solid rgba(0,0,0,0.15);
+    }
+    .manifesto-body {
+      font-family: 'TTDrugs', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.7;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--near-black);
+    }
+    .manifesto-quote {
+      font-family: 'TTDrugs', sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--near-black);
+      opacity: 0.7;
+    }
+
+    /* ─── MODELS ─── */
+    .models-wrapper {
+      position: relative;
+    }
+    .models {
+      background: var(--near-black);
+      padding: 80px 0 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .models-header {
+      padding: 0 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      flex-shrink: 0;
+    }
+    .models-title {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: clamp(36px, 5vw, 72px);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--light-gray);
+    }
+    .models-hint {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+    }
+    .models-scroll {
+      display: flex;
+      gap: 3px;
+      padding: 0 48px;
+      overflow: visible;
+      will-change: transform;
+      flex-shrink: 0;
+    }
+    .model-card {
+      flex: 0 0 320px;
+      height: 480px;
+      position: relative;
+      overflow: hidden;
+      background: #1a1a1a;
+      cursor: pointer;
+    }
+    .model-card:hover .model-img {
+      transform: scale(1.05);
+    }
+    .model-card:hover .model-overlay {
+      opacity: 1;
+    }
+    .model-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      filter: grayscale(20%);
+    }
+    .model-img-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .model-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+      opacity: 0.7;
+      transition: opacity 0.4s;
+    }
+    .model-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 28px 24px;
+    }
+    .model-number {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--mid-gray);
+      margin-bottom: 6px;
+    }
+    .model-name {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+    .model-arrow {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s, border-color 0.3s;
+    }
+    .model-card:hover .model-arrow {
+      opacity: 1;
+      border-color: rgba(255,255,255,0.7);
+    }
+    .model-arrow svg { width: 14px; height: 14px; }
+
+    /* ─── CRAFT / ПОЧЕРК ─── */
+    .craft {
+      background: var(--black);
+      padding: 160px 48px;
+    }
+    .craft-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .craft-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: end;
+      margin-bottom: 80px;
+    }
+    .craft-title {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: clamp(40px, 5.5vw, 80px);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--light-gray);
+    }
+    .craft-text {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--light-gray);
+    }
+    .craft-term {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid #2a2a2a;
+    }
+    .craft-term-text {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 700;
+      font-size: clamp(18px, 2vw, 28px);
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+      color: var(--white);
+    }
+    .craft-term-text span {
+      color: var(--mid-gray);
+    }
+    .craft-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 400px 300px;
+      gap: 3px;
+    }
+    .craft-img {
+      overflow: hidden;
+      background: #1a1a1a;
+    }
+    .craft-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+    .craft-img:hover img {
+      transform: scale(1.04);
+    }
+    .craft-img.span-col { grid-column: span 1; }
+    .craft-img.span-row { grid-row: span 2; }
+
+    /* ─── VLAD ─── */
+    .vlad-wrapper { position: relative; }
+    .vlad-scene {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: var(--light-gray);
+      overflow: hidden;
+    }
+    .vlad-caption {
+      position: fixed;
+      bottom: 100px;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      opacity: 0;
+    }
+    .vlad-label {
+      font-family: 'TTDrugs', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      padding: 0 48px;
+      margin-bottom: 20px;
+    }
+    .vlad-title {
+      font-family: 'NormCompact', sans-serif;
+      font-weight: 900;
+      font-size: 200px;
+      line-height: 0.85;
+      color: var(--white);
+      white-space: nowrap;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+    .vlad-bio-right {
+      position: fixed;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42%;
+      max-width: 560px;
+      z-index: 5;
+    }
+    .vlad-bio-p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #3a3a3a;
+      margin-bottom: 24px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .vlad-bio-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'TTDrugs', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--near-black);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(19,19,19,0.3);
+      padding-bottom: 4px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .vlad-bio-link:hover { border-color: var(--near-black); }
+    .vlad-photo-group {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translateY(100%);
+    }
+    .vlad-photo {
+      height: 88vh;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      object-position: bottom;
+      filter: grayscale(10%);
+    }
+
+/* ─── VLAD BIO ─── */
+    .vlad-bio-section {
+      background: var(--near-black);
+      padding: 120px 48px;
+      position: relative;
+      z-index: 10;
+    }
+    .vlad-bio-inner {
+      max-width: 640px;
+      margin-left: auto;
+    }
+    .vlad-bio {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--light-gray);
+    }
+    .vlad-bio p { margin-bottom: 24px; }
+    .vlad-bio p:last-child { margin-bottom: 0; }
+    .vlad-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 48px;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+      border-bottom: 1px solid var(--mid-gray);
+      padding-bottom: 6px;
+      transition: border-color 0.3s;
+    }
+    .vlad-link:hover { border-color: var(--white); }
+    .vlad-link svg { width: 16px; height: 16px; }
+
+    /* ─── PARTNERS ─── */
+    .partners {
+      background: var(--black);
+      padding: 160px 48px;
+      text-align: center;
+    }
+    .partners-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .partners-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 32px;
+    }
+    .partners-title {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 900;
+      font-size: clamp(36px, 5vw, 72px);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      color: var(--light-gray);
+      margin-bottom: 32px;
+    }
+    .partners-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--light-gray);
+      margin-bottom: 60px;
+    }
+    .partners-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      color: var(--black);
+      font-family: 'NormExt', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      padding: 18px 40px;
+      text-transform: uppercase;
+      transition: background 0.3s, color 0.3s;
+    }
+    .partners-cta:hover {
+      background: var(--light-gray);
+    }
+    .partners-cta svg { width: 16px; height: 16px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--near-black);
+      border-top: 1px solid #222;
+      padding: 64px 48px;
+    }
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .footer-brand {}
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .footer-logo svg { width: 30px; }
+    .footer-logo-text {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+    }
+    .footer-tagline {
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+    }
+    .footer-contacts {}
+    .footer-section-title {
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 20px;
+    }
+    .footer-contact-item {
+      font-size: 14px;
+      line-height: 2;
+      color: var(--light-gray);
+    }
+    .footer-social {}
+    .footer-social-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-social-link {
+      font-size: 14px;
+      color: var(--light-gray);
+      letter-spacing: 0.06em;
+      transition: color 0.3s;
+    }
+    .footer-social-link:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 48px auto 0;
+      padding-top: 32px;
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 11px;
+      color: var(--mid-gray);
+      letter-spacing: 0.08em;
+    }
+    .footer-years {
+      font-family: 'NormExt', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--mid-gray);
+    }
+
+    /* ─── LOGO SVG ─── */
+    .logo-mark { fill: none; stroke: currentColor; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 80 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Wing sweeps -->
+        <path d="M2 22 C18 4, 32 18, 40 14 C48 18, 62 4, 78 22" stroke="white" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        <!-- Horseshoe / ring -->
+        <path d="M40 14 L40 20" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M29 28 C29 20, 51 20, 51 28 C51 36, 29 36, 29 28Z" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="40" cy="13" r="2.5" fill="white"/>
+      </svg>
+      <span class="nav-wordmark">BOX39</span>
+    </a>
+    <a href="mailto:info@box39.ru" class="nav-contact">Contact</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-wrapper">
+  <section class="hero">
+    <div class="hero-bg">
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="assets/hero.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content" id="heroContent">
+      <div class="hero-sub" id="heroSub">Custom motorcycles · Moscow · Dubai</div>
+      <div class="hero-tagline" id="heroTagline">
+        <div class="hero-set hero-set-1" id="heroSet1">
+          <span class="hero-line">ART THAT</span>
+          <span class="hero-line">MOVES YOU</span>
+        </div>
+        <div class="hero-set hero-set-2" id="heroSet2">
+          <span class="hero-line">MANI</span>
+          <span class="hero-line">FEST<sup class="hero-sup">®</sup></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- GREY BLOCK -->
+  <div class="manifesto-block">
+    <div class="manifesto-grid">
+      <div class="manifesto-col reveal">
+        <p class="manifesto-body">We don't build motorcycles. We create objects that demand to be looked at. Riding them is the bonus.</p>
+      </div>
+      <div class="manifesto-col reveal reveal-delay-1">
+        <p class="manifesto-body">Custom motorcycles as art objects. Every surface resolved. Every detail intentional.</p>
+      </div>
+      <div class="manifesto-quote-row reveal reveal-delay-2">
+        <p class="manifesto-quote">In the world of BOX39, aesthetics are not a feature&nbsp;— they are the entire point.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODELS -->
+  <div class="models-wrapper" id="modelsWrapper">
+  <section class="models">
+    <div class="models-header">
+      <div>
+        <p class="section-label reveal">Collection</p>
+        <h2 class="models-title reveal reveal-delay-1">THE MODELS</h2>
+      </div>
+      <span class="models-hint reveal reveal-delay-2">Scroll to explore →</span>
+    </div>
+
+    <div class="models-scroll" id="modelsScroll">
+
+      <div class="model-card reveal">
+        <img class="model-img" src="assets/bike1.png" alt="Giotto Altre">
+        <div class="model-overlay"></div>
+        <div class="model-arrow">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="model-info">
+          <div class="model-number">01</div>
+          <div class="model-name">GIOTTO ALTRE</div>
+        </div>
+      </div>
+
+      <div class="model-card reveal reveal-delay-1">
+        <img class="model-img" src="assets/bike2.png" alt="Fatbox">
+        <div class="model-overlay"></div>
+        <div class="model-arrow">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="model-info">
+          <div class="model-number">02</div>
+          <div class="model-name">FATBOX</div>
+        </div>
+      </div>
+
+      <div class="model-card reveal reveal-delay-2">
+        <img class="model-img" src="assets/bike3.png" alt="Breakbox">
+        <div class="model-overlay"></div>
+        <div class="model-arrow">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="model-info">
+          <div class="model-number">03</div>
+          <div class="model-name">BREAKBOX</div>
+        </div>
+      </div>
+
+      <div class="model-card reveal reveal-delay-3">
+        <img class="model-img" src="assets/bike4.png" alt="Agostino">
+        <div class="model-overlay"></div>
+        <div class="model-arrow">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="model-info">
+          <div class="model-number">04</div>
+          <div class="model-name">AGOSTINO</div>
+        </div>
+      </div>
+
+      <div class="model-card reveal reveal-delay-4">
+        <div class="model-img-placeholder"></div>
+        <div class="model-overlay"></div>
+        <div class="model-arrow">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="model-info">
+          <div class="model-number">05</div>
+          <div class="model-name">PIOMBO-X</div>
+        </div>
+      </div>
+
+      <div class="model-card reveal">
+        <div class="model-img-placeholder"></div>
+        <div class="model-overlay"></div>
+        <div class="model-arrow">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="model-info">
+          <div class="model-number">06</div>
+          <div class="model-name">ATOMIC HEART</div>
+        </div>
+      </div>
+
+      <div class="model-card reveal reveal-delay-1">
+        <div class="model-img-placeholder"></div>
+        <div class="model-overlay"></div>
+        <div class="model-arrow">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="model-info">
+          <div class="model-number">07</div>
+          <div class="model-name">ALIENSE</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  </div>
+
+  <!-- CRAFT / ПОЧЕРК -->
+  <section class="craft">
+    <div class="craft-inner">
+      <div class="craft-top">
+        <div>
+          <p class="section-label reveal">Signature</p>
+          <h2 class="craft-title reveal reveal-delay-1">THE<br>BOX39<br>ESTHETICS</h2>
+        </div>
+        <div>
+          <p class="craft-text reveal reveal-delay-2">
+            Every surface, joint, and detail is resolved — not because it has to be, but because it can't be any other way. We see design possibilities in motorcycles that people inside the industry don't see. That's not a claim. The industry already knows.
+          </p>
+          <div class="craft-term reveal reveal-delay-3">
+            <p class="craft-term-text">
+              BOX39 is not just a name.<br>
+              <span>It became a term.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="craft-grid reveal reveal-delay-1">
+        <div class="craft-img span-row">
+          <img src="assets/showroom1.png" alt="BOX39 Showroom">
+        </div>
+        <div class="craft-img">
+          <img src="assets/detail2.jpg" alt="Detail">
+        </div>
+        <div class="craft-img">
+          <img src="assets/detail3.jpg" alt="Detail">
+        </div>
+        <div class="craft-img">
+          <img src="assets/showroom2.png" alt="BOX39 Interior">
+        </div>
+        <div class="craft-img">
+          <img src="assets/detail1.png" alt="Detail">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VLAD -->
+  <div class="vlad-wrapper" id="vladWrapper">
+  <section class="vlad-scene" id="vladScene">
+    <div class="vlad-caption" id="vladCaption">
+      <div class="vlad-label">The Founder</div>
+      <div class="vlad-title" id="vladTitle">VLAD BOX39</div>
+    </div>
+    <div class="vlad-bio-right" id="vladBioRight">
+      <p class="vlad-bio-p" id="vladBP1">Vlad started in a garage in Saint Petersburg. Over 14 years he turned a personal obsession with aesthetics into a brand the whole world copies.</p>
+      <p class="vlad-bio-p" id="vladBP2">He looks at a motorcycle the way someone does when what matters is how an object exists in space — how it reads standing still, how it reads in motion.</p>
+      <p class="vlad-bio-p" id="vladBP3">That perspective turned out to be exactly what the industry was missing. Which is why his bikes are bought by people drawn not just to the machine, but to the aesthetics of BOX39.</p>
+      <a href="https://www.youtube.com/box39" target="_blank" class="vlad-bio-link" id="vladBL">
+        YouTube Channel
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="vlad-photo-group" id="vladPhotoGroup">
+      <img class="vlad-photo" src="assets/vlad.png" alt="Vlad — Founder BOX39">
+    </div>
+  </section>
+  </div>
+
+  <!-- PARTNERS -->
+  <section class="partners">
+    <div class="partners-inner">
+      <p class="partners-eyebrow reveal">For Partners</p>
+      <h2 class="partners-title reveal reveal-delay-1">BRING BOX39<br>TO YOUR MARKET</h2>
+      <p class="partners-text reveal reveal-delay-2">
+        We're looking for distributors who understand what it means to sell an object of desire — not just a motorcycle. If you're building a luxury portfolio, let's talk.
+      </p>
+      <a href="mailto:info@box39.ru" class="partners-cta reveal reveal-delay-3">
+        Get in touch
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg viewBox="0 0 80 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 22 C18 4, 32 18, 40 14 C48 18, 62 4, 78 22" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M40 14 L40 20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M29 28 C29 20, 51 20, 51 28 C51 36, 29 36, 29 28Z" stroke="white" stroke-width="1.8" fill="none"/>
+            <circle cx="40" cy="13" r="2.2" fill="white"/>
+          </svg>
+          <span class="footer-logo-text">BOX39</span>
+        </div>
+        <p class="footer-tagline">Art That Moves You</p>
+      </div>
+
+      <div class="footer-contacts">
+        <p class="footer-section-title">Contacts</p>
+        <div class="footer-contact-item">
+          Moscow<br>
+          Садовая ул., 39, стр. 17<br>
+          +7 977-339-39-39
+        </div>
+        <div class="footer-contact-item" style="margin-top:16px;">
+          Dubai<br>
+          info@box39.ru
+        </div>
+      </div>
+
+      <div class="footer-social">
+        <p class="footer-section-title">Follow</p>
+        <div class="footer-social-links">
+          <a href="https://www.instagram.com/box39" target="_blank" class="footer-social-link">Instagram</a>
+          <a href="https://www.youtube.com/box39" target="_blank" class="footer-social-link">YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 BOX39. All rights reserved.</span>
+      <span class="footer-years">2011 ▪ 2025</span>
+    </div>
+  </footer>
+
+  <script>
+    /* ─── HERO FIT ─── */
+    function fitHero() {
+      const tagline = document.getElementById('heroTagline');
+      const refLine = tagline.querySelector('.hero-set-1 .hero-line:last-child');
+      const max = window.innerWidth - 48;
+      tagline.style.fontSize = '200px';
+      while (refLine.offsetWidth > max) {
+        tagline.style.fontSize = (parseFloat(tagline.style.fontSize) - 1) + 'px';
+      }
+    }
+    window.addEventListener('load', fitHero);
+    window.addEventListener('resize', fitHero);
+
+    /* ─── HERO SCROLL ANIMATION ─── */
+    const heroContentEl = document.getElementById('heroContent');
+    const heroSubEl     = document.getElementById('heroSub');
+    const heroSet1      = document.getElementById('heroSet1');
+    const heroSet2      = document.getElementById('heroSet2');
+    const heroWrapper   = document.querySelector('.hero-wrapper');
+
+    window.addEventListener('scroll', () => {
+      const scrollY   = window.scrollY;
+      const wrapperH  = heroWrapper.offsetHeight - window.innerHeight;
+      const progress  = Math.min(scrollY / wrapperH, 1);
+
+      // смена текста: свап на первых 250px скролла
+      const t = Math.min(scrollY / 250, 1);
+      heroSet1.style.opacity  = Math.max(0, 1 - t);
+      heroSet2.style.opacity  = Math.min(1, (scrollY - 80) / 170);
+      heroSubEl.style.opacity = Math.max(0, 1 - t);
+    });
+
+    /* ─── REVEAL ON SCROLL ─── */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    /* ─── HORIZONTAL SCROLL MODELS ─── */
+    const modelsWrapper = document.getElementById('modelsWrapper');
+    const modelsScroll  = document.getElementById('modelsScroll');
+
+    function setupModelsScroll() {
+      const trackW = modelsScroll.scrollWidth;
+      const vw = window.innerWidth;
+      const scrollDist = Math.max(0, trackW - vw + 96); // 96 = right padding
+      modelsWrapper.style.height = (window.innerHeight + scrollDist) + 'px';
+    }
+    setupModelsScroll();
+    window.addEventListener('resize', setupModelsScroll);
+
+    window.addEventListener('scroll', () => {
+      const wTop = modelsWrapper.getBoundingClientRect().top + window.scrollY;
+      const trackW = modelsScroll.scrollWidth;
+      const vw = window.innerWidth;
+      const scrollDist = Math.max(0, trackW - vw + 96);
+      const rel = window.scrollY - wTop;
+      const x = Math.max(0, Math.min(rel, scrollDist));
+      modelsScroll.style.transform = `translateX(-${x}px)`;
+    });
+
+
+    /* ─── VLAD SCROLL ANIMATION ─── */
+    const vladWrapper  = document.getElementById('vladWrapper');
+    const vladCaption  = document.getElementById('vladCaption');
+    const vladTitleEl  = document.getElementById('vladTitle');
+    const vladPhotoEl  = document.getElementById('vladPhotoGroup');
+    const vladBioEl    = document.querySelector('.partners');
+    const vladBP1      = document.getElementById('vladBP1');
+    const vladBP2      = document.getElementById('vladBP2');
+    const vladBP3      = document.getElementById('vladBP3');
+    const vladBL       = document.getElementById('vladBL');
+    const vladBioRight = document.getElementById('vladBioRight');
+
+    function fitVladTitle() {
+      const probe = document.createElement('span');
+      probe.style.cssText = 'position:fixed;top:-9999px;visibility:hidden;white-space:nowrap;' +
+        'font-family:NormCompact,sans-serif;font-weight:900;letter-spacing:-0.02em;';
+      probe.textContent = 'VLAD BOX39';
+      document.body.appendChild(probe);
+      let size = 400;
+      probe.style.fontSize = size + 'px';
+      while (probe.offsetWidth > window.innerWidth) {
+        size--;
+        probe.style.fontSize = size + 'px';
+      }
+      document.body.removeChild(probe);
+      vladTitleEl.style.fontSize = size + 'px';
+    }
+    window.addEventListener('load', fitVladTitle);
+    window.addEventListener('resize', fitVladTitle);
+
+    vladWrapper.style.height = '320vh';
+
+    window.addEventListener('scroll', () => {
+      const rect = vladWrapper.getBoundingClientRect();
+      const scrollable = vladWrapper.offsetHeight - window.innerHeight;
+      const scrolled = Math.max(0, -rect.top);
+      const p = Math.max(0, Math.min(scrolled / scrollable, 1));
+
+      // Скрываем если wrapper полностью ушёл из viewport
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+        vladCaption.style.opacity = 0;
+        vladBP1.style.opacity = 0;
+        vladBP2.style.opacity = 0;
+        vladBP3.style.opacity = 0;
+        vladBL.style.opacity  = 0;
+        return;
+      }
+
+      // Сколько блока видно снизу (0 = только вошел, 1 = полностью закрыл экран)
+      const visibleFraction = (window.innerHeight - Math.max(0, rect.top)) / window.innerHeight;
+      // Появляется когда 40% блока видно
+      const fadeIn = Math.max(0, Math.min((visibleFraction - 0.40) / 0.10, 1));
+      vladCaption.style.opacity = fadeIn;
+
+      // Caption: 100px от низа экрана, уезжает вместе с bio-блоком
+      const bioTop = vladBioEl.getBoundingClientRect().top;
+      if (bioTop >= window.innerHeight) {
+        vladCaption.style.bottom = '100px';
+      } else {
+        vladCaption.style.bottom = (window.innerHeight - bioTop + 100) + 'px';
+      }
+
+      // Абзацы биографии — поочерёдно по прогрессу p
+      vladBP1.style.opacity = Math.max(0, Math.min((p - 0.10) / 0.12, 1)) * fadeIn;
+      vladBP2.style.opacity = Math.max(0, Math.min((p - 0.30) / 0.12, 1)) * fadeIn;
+      vladBP3.style.opacity = Math.max(0, Math.min((p - 0.50) / 0.12, 1)) * fadeIn;
+      vladBL.style.opacity  = Math.max(0, Math.min((p - 0.70) / 0.12, 1)) * fadeIn;
+
+      // Bio-текст уезжает со следующим блоком так же как заголовок
+      if (bioTop >= window.innerHeight) {
+        vladBioRight.style.transform = 'translateY(-50%)';
+      } else {
+        vladBioRight.style.transform = `translateY(calc(-50% - ${window.innerHeight - bioTop}px))`;
+      }
+
+      // Фото: начинает выезжать как только блок входит в viewport
+      const photoP = visibleFraction < 1
+        ? visibleFraction * 0.3
+        : 0.3 + p * 0.7;
+      vladPhotoEl.style.transform = `translateY(${(1 - photoP) * 100}%)`;
+    });
+
+    /* ─── NAV BACKGROUND ON SCROLL ─── */
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        nav.style.background = 'rgba(19,19,19,0.95)';
+        nav.style.backdropFilter = 'blur(12px)';
+        nav.style.transition = 'background 0.4s';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
