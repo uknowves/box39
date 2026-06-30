@@ -1136,10 +1136,10 @@
       const progress  = Math.min(scrollY / wrapperH, 1);
 
       // смена текста: свап на первых 250px скролла
-      const t = Math.min(scrollY / 250, 1);
+      const t = Math.min(scrollY / 170, 1);
       heroSet1.style.opacity  = Math.max(0, 1 - t);
-      heroSet2.style.opacity  = Math.min(1, (scrollY - 80) / 170);
-      heroSubEl.style.opacity = Math.max(0, 1 - t);
+      heroSet2.style.opacity  = Math.min(1, (scrollY - 120) / 150);
+      heroSubEl.style.opacity = Math.max(0, 1 - Math.min(scrollY / 120, 1));
     });
 
     /* ─── REVEAL ON SCROLL ─── */
